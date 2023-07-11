@@ -53,7 +53,7 @@ impl<Program, Payload, Value, GasLimit, ReservationId> SendBuilder<(Program, Pay
     }
 }
 
-impl<Program, Payload, Value, Delay, ReservationId> SendBuilder<(Program, Payload, Value, Delay, (), ReservationId)> {
+impl<Program, Payload, Value, Delay, ReservationId: ReservationIdUnitMarker> SendBuilder<(Program, Payload, Value, Delay, (), ReservationId)> {
     pub fn with_gas_limit(self, gas_limit: u64) -> SendBuilder<(Program, Payload, Value, Delay, GasLimitW, ReservationId)> {
         let (program, payload, value, delay, _, reservation_id) = self.fields;
         SendBuilder {
@@ -62,7 +62,7 @@ impl<Program, Payload, Value, Delay, ReservationId> SendBuilder<(Program, Payloa
     }
 }
 
-impl<Program, Payload: GasFromReservationMarker, Value, Delay, GasLimit> SendBuilder<(Program, Payload, Value, Delay, GasLimit, ())> {
+impl<Program, Payload: GasFromReservationMarker, Value, Delay, GasLimit: GasLimitUnitMarker> SendBuilder<(Program, Payload, Value, Delay, GasLimit, ())> {
     pub fn with_gas_from_reservation(self, reservation_id: ReservationId) -> SendBuilder<(Program, Payload, Value, Delay, GasLimit, ReservationIdW)> {
         let (program, payload, value, delay, gas_limit, _) = self.fields;
         SendBuilder {

@@ -44,7 +44,7 @@ impl<Payload, ReservationId, GasLimit> ReplyBuilder<(Payload, (), ReservationId,
     }
 }
 
-impl<Payload: GasFromReservationMarker, Value, GasLimit> ReplyBuilder<(Payload, Value, (), GasLimit)> {
+impl<Payload: GasFromReservationMarker, Value, GasLimit: GasLimitUnitMarker> ReplyBuilder<(Payload, Value, (), GasLimit)> {
     pub fn with_gas_from_reservation(self, reservation_id: ReservationId) -> ReplyBuilder<(Payload, Value, ReservationIdW, GasLimit)> {
         let (payload, value, _, gas_limit) = self.fields;
         ReplyBuilder {
@@ -53,7 +53,7 @@ impl<Payload: GasFromReservationMarker, Value, GasLimit> ReplyBuilder<(Payload, 
     }
 }
 
-impl<Payload, Value, ReservationId> ReplyBuilder<(Payload, Value, ReservationId, ())> {
+impl<Payload, Value, ReservationId: ReservationIdUnitMarker> ReplyBuilder<(Payload, Value, ReservationId, ())> {
     pub fn with_gas_limit(self, gas_limit: u64) -> ReplyBuilder<(Payload, Value, ReservationId, GasLimitW)> {
         let (payload, value, reservation_id, _) = self.fields;
         ReplyBuilder {
