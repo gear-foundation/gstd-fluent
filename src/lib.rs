@@ -2,7 +2,5 @@
 
 mod common;
 
+pub mod builder;
 pub mod generated;
-
-pub mod msg;
-pub mod prog;
