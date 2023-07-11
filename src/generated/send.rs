@@ -62,7 +62,7 @@ impl<Program, Payload, Value, Delay, ReservationId> SendBuilder<(Program, Payloa
     }
 }
 
-impl<Program: GasFromReservationMarker, Payload, Value, Delay, GasLimit> SendBuilder<(Program, Payload, Value, Delay, GasLimit, ())> {
+impl<Program, Payload: GasFromReservationMarker, Value, Delay, GasLimit> SendBuilder<(Program, Payload, Value, Delay, GasLimit, ())> {
     pub fn with_gas_from_reservation(self, reservation_id: ReservationId) -> SendBuilder<(Program, Payload, Value, Delay, GasLimit, ReservationIdW)> {
         let (program, payload, value, delay, gas_limit, _) = self.fields;
         SendBuilder {
