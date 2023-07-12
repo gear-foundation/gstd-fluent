@@ -15,6 +15,18 @@ pub struct DelayW(pub(crate) u32);
 pub struct DecodableW<Decodable: Decode>(pub(crate) PhantomData<Decodable>);
 pub struct ReplyDepositW(pub(crate) u64);
 
+impl From<()> for ValueW {
+    fn from(_: ()) -> Self {
+        Self(0)
+    }
+}
+
+impl From<()> for ReplyDepositW {
+    fn from(_: ()) -> Self {
+        Self(0)
+    }
+}
+
 pub trait GasFromReservationMarker {}
 
 impl<Buffer: AsRef<[u8]>> GasFromReservationMarker for PayloadBytesW<Buffer> {}
