@@ -1,6 +1,6 @@
-pub use core::ops::RangeBounds;
+pub use core::{marker::PhantomData, ops::RangeBounds};
 pub use gstd::{
-    errors::Result, msg::*, prog::*, ActorId, CodeId, Encode, MessageId, ReservationId,
+    errors::Result, msg::*, prog::*, ActorId, CodeId, Decode, Encode, MessageId, ReservationId,
 };
 
 pub struct ProgramW(pub(crate) ActorId);
@@ -12,6 +12,8 @@ pub struct ValueW(pub(crate) u128);
 pub struct ReservationIdW(pub(crate) ReservationId);
 pub struct GasLimitW(pub(crate) u64);
 pub struct DelayW(pub(crate) u32);
+pub struct DecodableW<Decodable: Decode>(pub(crate) PhantomData<Decodable>);
+pub struct ReplyDepositW(pub(crate) u64);
 
 pub trait GasFromReservationMarker {}
 
