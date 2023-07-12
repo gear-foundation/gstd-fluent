@@ -62,114 +62,58 @@ impl<Payload, Value, ReservationId: ReservationIdUnitMarker> ReplyBuilder<(Paylo
     }
 }
 
-impl<Buffer: AsRef<[u8]>> ReplyBuilder<(PayloadBytesW<Buffer>, (), (), ())> {
+impl<Buffer: AsRef<[u8]>, Value: Into<ValueW>> ReplyBuilder<(PayloadBytesW<Buffer>, Value, (), ())> {
     pub fn execute(self) -> Result<MessageId> {
-        let (PayloadBytesW(payload), (), (), ()) = self.fields;
-        reply_bytes(payload, 0)
+        let (PayloadBytesW(payload), value, (), ()) = self.fields;
+        reply_bytes(payload, value.into().0)
     }
 }
 
-impl<Buffer: AsRef<[u8]>> ReplyBuilder<(PayloadBytesW<Buffer>, (), (), GasLimitW)> {
+impl<Buffer: AsRef<[u8]>, Value: Into<ValueW>> ReplyBuilder<(PayloadBytesW<Buffer>, Value, (), GasLimitW)> {
     pub fn execute(self) -> Result<MessageId> {
-        let (PayloadBytesW(payload), (), (), GasLimitW(gas_limit)) = self.fields;
-        reply_bytes_with_gas(payload, gas_limit, 0)
+        let (PayloadBytesW(payload), value, (), GasLimitW(gas_limit)) = self.fields;
+        reply_bytes_with_gas(payload, gas_limit, value.into().0)
     }
 }
 
-impl<Buffer: AsRef<[u8]>> ReplyBuilder<(PayloadBytesW<Buffer>, (), ReservationIdW, ())> {
+impl<Buffer: AsRef<[u8]>, Value: Into<ValueW>> ReplyBuilder<(PayloadBytesW<Buffer>, Value, ReservationIdW, ())> {
     pub fn execute(self) -> Result<MessageId> {
-        let (PayloadBytesW(payload), (), ReservationIdW(reservation_id), ()) = self.fields;
-        reply_bytes_from_reservation(reservation_id, payload, 0)
+        let (PayloadBytesW(payload), value, ReservationIdW(reservation_id), ()) = self.fields;
+        reply_bytes_from_reservation(reservation_id, payload, value.into().0)
     }
 }
 
-impl<Buffer: AsRef<[u8]>> ReplyBuilder<(PayloadBytesW<Buffer>, ValueW, (), ())> {
+impl<Encodable: Encode, Value: Into<ValueW>> ReplyBuilder<(PayloadEncodableW<Encodable>, Value, (), ())> {
     pub fn execute(self) -> Result<MessageId> {
-        let (PayloadBytesW(payload), ValueW(value), (), ()) = self.fields;
-        reply_bytes(payload, value)
+        let (PayloadEncodableW(payload), value, (), ()) = self.fields;
+        reply(payload, value.into().0)
     }
 }
 
-impl<Buffer: AsRef<[u8]>> ReplyBuilder<(PayloadBytesW<Buffer>, ValueW, (), GasLimitW)> {
+impl<Encodable: Encode, Value: Into<ValueW>> ReplyBuilder<(PayloadEncodableW<Encodable>, Value, (), GasLimitW)> {
     pub fn execute(self) -> Result<MessageId> {
-        let (PayloadBytesW(payload), ValueW(value), (), GasLimitW(gas_limit)) = self.fields;
-        reply_bytes_with_gas(payload, gas_limit, value)
+        let (PayloadEncodableW(payload), value, (), GasLimitW(gas_limit)) = self.fields;
+        reply_with_gas(payload, gas_limit, value.into().0)
     }
 }
 
-impl<Buffer: AsRef<[u8]>> ReplyBuilder<(PayloadBytesW<Buffer>, ValueW, ReservationIdW, ())> {
+impl<Encodable: Encode, Value: Into<ValueW>> ReplyBuilder<(PayloadEncodableW<Encodable>, Value, ReservationIdW, ())> {
     pub fn execute(self) -> Result<MessageId> {
-        let (PayloadBytesW(payload), ValueW(value), ReservationIdW(reservation_id), ()) = self.fields;
-        reply_bytes_from_reservation(reservation_id, payload, value)
+        let (PayloadEncodableW(payload), value, ReservationIdW(reservation_id), ()) = self.fields;
+        reply_from_reservation(reservation_id, payload, value.into().0)
     }
 }
 
-impl<Encodable: Encode> ReplyBuilder<(PayloadEncodableW<Encodable>, (), (), ())> {
+impl<Range: RangeBounds<usize>, Value: Into<ValueW>> ReplyBuilder<(PayloadInputW<Range>, Value, (), ())> {
     pub fn execute(self) -> Result<MessageId> {
-        let (PayloadEncodableW(payload), (), (), ()) = self.fields;
-        reply(payload, 0)
+        let (PayloadInputW(payload), value, (), ()) = self.fields;
+        reply_input(value.into().0, payload)
     }
 }
 
-impl<Encodable: Encode> ReplyBuilder<(PayloadEncodableW<Encodable>, (), (), GasLimitW)> {
+impl<Range: RangeBounds<usize>, Value: Into<ValueW>> ReplyBuilder<(PayloadInputW<Range>, Value, (), GasLimitW)> {
     pub fn execute(self) -> Result<MessageId> {
-        let (PayloadEncodableW(payload), (), (), GasLimitW(gas_limit)) = self.fields;
-        reply_with_gas(payload, gas_limit, 0)
-    }
-}
-
-impl<Encodable: Encode> ReplyBuilder<(PayloadEncodableW<Encodable>, (), ReservationIdW, ())> {
-    pub fn execute(self) -> Result<MessageId> {
-        let (PayloadEncodableW(payload), (), ReservationIdW(reservation_id), ()) = self.fields;
-        reply_from_reservation(reservation_id, payload, 0)
-    }
-}
-
-impl<Encodable: Encode> ReplyBuilder<(PayloadEncodableW<Encodable>, ValueW, (), ())> {
-    pub fn execute(self) -> Result<MessageId> {
-        let (PayloadEncodableW(payload), ValueW(value), (), ()) = self.fields;
-        reply(payload, value)
-    }
-}
-
-impl<Encodable: Encode> ReplyBuilder<(PayloadEncodableW<Encodable>, ValueW, (), GasLimitW)> {
-    pub fn execute(self) -> Result<MessageId> {
-        let (PayloadEncodableW(payload), ValueW(value), (), GasLimitW(gas_limit)) = self.fields;
-        reply_with_gas(payload, gas_limit, value)
-    }
-}
-
-impl<Encodable: Encode> ReplyBuilder<(PayloadEncodableW<Encodable>, ValueW, ReservationIdW, ())> {
-    pub fn execute(self) -> Result<MessageId> {
-        let (PayloadEncodableW(payload), ValueW(value), ReservationIdW(reservation_id), ()) = self.fields;
-        reply_from_reservation(reservation_id, payload, value)
-    }
-}
-
-impl<Range: RangeBounds<usize>> ReplyBuilder<(PayloadInputW<Range>, (), (), ())> {
-    pub fn execute(self) -> Result<MessageId> {
-        let (PayloadInputW(payload), (), (), ()) = self.fields;
-        reply_input(0, payload)
-    }
-}
-
-impl<Range: RangeBounds<usize>> ReplyBuilder<(PayloadInputW<Range>, (), (), GasLimitW)> {
-    pub fn execute(self) -> Result<MessageId> {
-        let (PayloadInputW(payload), (), (), GasLimitW(gas_limit)) = self.fields;
-        reply_input_with_gas(gas_limit, 0, payload)
-    }
-}
-
-impl<Range: RangeBounds<usize>> ReplyBuilder<(PayloadInputW<Range>, ValueW, (), ())> {
-    pub fn execute(self) -> Result<MessageId> {
-        let (PayloadInputW(payload), ValueW(value), (), ()) = self.fields;
-        reply_input(value, payload)
-    }
-}
-
-impl<Range: RangeBounds<usize>> ReplyBuilder<(PayloadInputW<Range>, ValueW, (), GasLimitW)> {
-    pub fn execute(self) -> Result<MessageId> {
-        let (PayloadInputW(payload), ValueW(value), (), GasLimitW(gas_limit)) = self.fields;
-        reply_input_with_gas(gas_limit, value, payload)
+        let (PayloadInputW(payload), value, (), GasLimitW(gas_limit)) = self.fields;
+        reply_input_with_gas(gas_limit, value.into().0, payload)
     }
 }
