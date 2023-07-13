@@ -36,6 +36,7 @@ impl<Encodable: Encode> PayloadWithGasReservationMarker for PayloadEncodableW<En
 // but in future versions of gstd they may be activated at the same time.
 // https://github.com/gear-tech/gear/pull/2705
 
-pub trait UnitTypeMarker {} //may be removed soon
+// To be removed soon
+pub trait UnitTypeMarker {}
 
 impl UnitTypeMarker for () {}
