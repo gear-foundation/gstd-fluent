@@ -1,10 +1,9 @@
 #![no_std]
 
 pub extern crate gstd;
+pub use functions::*;
 
 mod common;
-
-pub mod msg;
-pub mod prog;
+mod functions;
 
 pub mod generated;
