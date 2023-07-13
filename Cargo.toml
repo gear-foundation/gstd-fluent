@@ -5,7 +5,7 @@ authors = ["Gear Technologies"]
 edition = "2021"
 description = "A wrapper over gstd that provides a fluent interface to interact with the Gear Protocol"
 repository = "https://github.com/gear-foundation/gstd-fluent"
-license = "GPL-3.0"
+license = "MIT"
 keywords = ["gstd", "smart-contracts", "gear-tech", "gear-foundation"]
 categories = ["api-bindings", "no-std"]
 
