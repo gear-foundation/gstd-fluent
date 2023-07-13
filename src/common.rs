@@ -27,19 +27,15 @@ impl From<()> for ReplyDepositW {
     }
 }
 
-pub trait GasFromReservationMarker {}
+pub trait PayloadWithGasReservationMarker {}
 
-impl<Buffer: AsRef<[u8]>> GasFromReservationMarker for PayloadBytesW<Buffer> {}
-impl<Encodable: Encode> GasFromReservationMarker for PayloadEncodableW<Encodable> {}
+impl<Buffer: AsRef<[u8]>> PayloadWithGasReservationMarker for PayloadBytesW<Buffer> {}
+impl<Encodable: Encode> PayloadWithGasReservationMarker for PayloadEncodableW<Encodable> {}
 
 // Currently the `GasLimit` and `ReservationId` generics do not overlap,
 // but in future versions of gstd they may be activated at the same time.
 // https://github.com/gear-tech/gear/pull/2705
 
-pub trait GasLimitUnitMarker {} //may be removed soon
+pub trait UnitTypeMarker {} //may be removed soon
 
-impl GasLimitUnitMarker for () {}
-
-pub trait ReservationIdUnitMarker {} //may be removed soon
-
-impl ReservationIdUnitMarker for () {}
+impl UnitTypeMarker for () {}
