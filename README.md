@@ -16,7 +16,7 @@
 A wrapper over [gstd](https://github.com/gear-tech/gear/tree/master/gstd)
 that provides a fluent interface to interact with the Gear Protocol.
 
-To use the default implementation, you should replace `gstd` with `gstd-fluent` in your Cargo.toml file:
+To use the default implementation, you should replace `gstd` with `gstd-fluent` in your `Cargo.toml` file:
 
 ```toml
 gstd-fluent = { git = "https://github.com/gear-foundation/gstd-fluent.git" }
