@@ -38,7 +38,7 @@
 //!         .with_delay(30)
 //!         // add two new lines:
 //!         .with_gas_limit(1_000_000)
-//!         .with_value(1_000) //value=0 by default
+//!         .with_value(1_000) // value=0 by default
 //!         // ^ specify an explicit gas limit and value
 //!         .execute()
 //!         // ^ same as `msg::send_with_gas_delayed(msg::source(), payload, 1_000_000, 1_000, 30)`
