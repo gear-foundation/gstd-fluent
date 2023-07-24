@@ -24,27 +24,27 @@
 //!     let block_height = exec::block_height();
 //!     let payload = format!("You sent me a message in block {block_height}");
 //!
-//!     // same as `msg::send_delayed(msg::source(), payload, 30, 0)`
+//!     // Same as `msg::send_delayed(msg::source(), payload, 30, 0)`
 //!     builder::send(msg::source(), payload.clone())
 //!         .with_delay(30)
-//!         // ^ you can customize the message here
-//!         //   e.g. specify delay, gas limit, reserved gas
+//!         // ^ You can customize the message here
+//!         //   E.g. specify delay, gas limit, reserved gas
 //!         .execute()
-//!         // ^ when you call `execute()` it calls the desired gstd function
+//!         // ^ When you call `execute()` it calls the desired gstd function
 //!         .expect("Unable to reply");
 //!
-//!     // for example, you want to specify an explicit gas limit and value:
+//!     // For example, you want to specify an explicit gas limit and value:
 //!     builder::send(msg::source(), payload.clone())
 //!         .with_delay(30)
-//!         // add two new lines:
+//!         // Add two new lines:
 //!         .with_gas_limit(1_000_000)
 //!         .with_value(1_000) // value=0 by default
-//!         // ^ specify an explicit gas limit and value
+//!         // ^ Specify an explicit gas limit and value
 //!         .execute()
-//!         // ^ same as `msg::send_with_gas_delayed(msg::source(), payload, 1_000_000, 1_000, 30)`
+//!         // ^ Same as `msg::send_with_gas_delayed(msg::source(), payload, 1_000_000, 1_000, 30)`
 //!         .expect("Unable to reply");
 //!
-//!     // instead of replacing `msg::send_delayed` with `msg::send_with_gas_delayed`
+//!     // Instead of replacing `msg::send_delayed` with `msg::send_with_gas_delayed`
 //!     // you can just add two newlines
 //! }
 //! ```
@@ -61,23 +61,23 @@
 //!     gstd::{self, prelude::*, ActorId, CodeId, ReservationId},
 //! };
 //!
-//! // this is pseudo-code to show all possible methods
+//! // This is pseudo-code to show all possible methods
 //! fn how_to_use_send() {
-//!     // supported functions:
+//!     // Supported functions:
 //!     // - `builder::send(...)`
 //!     // - `builder::send_bytes(...)`
 //!     // - `builder::send_input(...)`
 //!     builder::send(ActorId::zero(), String::from("payload"))
-//!         // possible methods (stage 1):
+//!         // Possible methods (stage 1):
 //!             .with_value(1) // value=0 by default
 //!             .with_delay(2) // delay in block count
-//!             // you can use `.with_gas_limit(...)` or `.with_gas_from_reservation(...)`
-//!             // both are not supported yet
-//!             .with_gas_limit(3) //explicit gas limit
+//!             // You can use `.with_gas_limit(...)` or `.with_gas_from_reservation(...)`
+//!             // Both are not supported yet
+//!             .with_gas_limit(3) // explicit gas limit
 //!             .with_gas_from_reservation(ReservationId::from([0; 32])) // gas from reservation
-//!         // possible methods (stage 2, called after stage 1):
-//!             // you can use `.for_reply()` or `.for_reply_as::<T>()`
-//!             // both are not supported
+//!         // Possible methods (stage 2, called after stage 1):
+//!             // You can use `.for_reply()` or `.for_reply_as::<T>()`
+//!             // Both are not supported
 //!             .for_reply() // wait for reply (output - bytes)
 //!             .for_reply_as::<T>() // wait for reply (output - T)
 //!                 .with_reply_deposit(1) // reply_deposit=0 by default
@@ -86,7 +86,7 @@
 //!         .expect("failed to send msg");
 //! }
 //!
-//! // equivalent to `msg::send_with_gas_for_reply_as`
+//! // Equivalent to `msg::send_with_gas_for_reply_as`
 //! async fn how_to_use_send_with_async() {
 //!     #[derive(Decode)]
 //!     #[codec(crate = gstd::codec)]
@@ -105,35 +105,35 @@
 //!         .expect("failed to get output");
 //! }
 //!
-//! // this is pseudo-code to show all possible methods
+//! // This is pseudo-code to show all possible methods
 //! fn how_to_use_reply() {
-//!     // supported functions:
+//!     // Supported functions:
 //!     // - `builder::reply(...)`
 //!     // - `builder::reply_bytes(...)`
 //!     // - `builder::reply_input(...)`
 //!     builder::reply(String::from("payload"))
-//!         // possible methods:
+//!         // Possible methods:
 //!             .with_value(1) // value=0 by default
-//!             // you can use `.with_gas_limit(...)` or `.with_gas_from_reservation(...)`
-//!             // both are not supported yet
-//!             .with_gas_limit(3) //explicit gas limit
+//!             // You can use `.with_gas_limit(...)` or `.with_gas_from_reservation(...)`
+//!             // Both are not supported yet
+//!             .with_gas_limit(3) // explicit gas limit
 //!             .with_gas_from_reservation(ReservationId::from([0; 32])) // gas from reservation
 //!         .execute()
 //!         // ^ don't forget about `.execute()`
 //!         .expect("failed to reply");
 //! }
 //!
-//! // this is pseudo-code to show all possible methods
+//! // This is pseudo-code to show all possible methods
 //! fn how_to_use_create_program() {
 //!     builder::create_program(CodeId::default(), b"payload")
-//!         // possible methods (stage 1):
+//!         // Possible methods (stage 1):
 //!             .with_value(1)
 //!             .with_delay(2)
 //!             .with_gas_limit(3)
 //!         .execute()
-//!         // possible methods (stage 2, called after stage 1):
-//!             // you can use `.for_reply()` or `.for_reply_as::<T>()`
-//!             // both are not supported
+//!         // Possible methods (stage 2, called after stage 1):
+//!             // You can use `.for_reply()` or `.for_reply_as::<T>()`
+//!             // Both are not supported
 //!             .for_reply() // wait for reply (output - bytes)
 //!             .for_reply_as::<T>() // wait for reply (output - T)
 //!                 .with_reply_deposit(1) // reply_deposit=0 by default
