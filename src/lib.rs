@@ -82,7 +82,7 @@
 //!             .for_reply_as::<T>() // Wait for reply (output - T)
 //!                 .with_reply_deposit(1) // Reply deposit is 0 by default
 //!         .execute()
-//!         // ^ don't forget about `.execute()`
+//!         // ^ Don't forget about `.execute()`
 //!         .expect("failed to send msg");
 //! }
 //!
@@ -119,7 +119,7 @@
 //!             .with_gas_limit(3) // Explicit gas limit
 //!             .with_gas_from_reservation(ReservationId::from([0; 32])) // Gas from reservation
 //!         .execute()
-//!         // ^ don't forget about `.execute()`
+//!         // ^ Don't forget about `.execute()`
 //!         .expect("failed to reply");
 //! }
 //!
@@ -137,7 +137,7 @@
 //!             .for_reply() // Wait for reply (output - bytes)
 //!             .for_reply_as::<T>() // Wait for reply (output - T)
 //!                 .with_reply_deposit(1) // Reply deposit is 0 by default
-//!         // ^ don't forget about `.execute()`
+//!         // ^ Don't forget about `.execute()`
 //!         .expect("failed to create program");
 //! }
 //! ```
