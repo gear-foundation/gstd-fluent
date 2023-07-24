@@ -38,7 +38,7 @@
 //!         .with_delay(30)
 //!         // Add two new lines:
 //!         .with_gas_limit(1_000_000)
-//!         .with_value(1_000) // value=0 by default
+//!         .with_value(1_000) // Value is 0 by default
 //!         // ^ Specify an explicit gas limit and value
 //!         .execute()
 //!         // ^ Same as `msg::send_with_gas_delayed(msg::source(), payload, 1_000_000, 1_000, 30)`
@@ -69,18 +69,18 @@
 //!     // - `builder::send_input(...)`
 //!     builder::send(ActorId::zero(), String::from("payload"))
 //!         // Possible methods (stage 1):
-//!             .with_value(1) // value=0 by default
-//!             .with_delay(2) // delay in block count
+//!             .with_value(1) // Value is 0 by default
+//!             .with_delay(2) // Delay in block count
 //!             // You can use `.with_gas_limit(...)` or `.with_gas_from_reservation(...)`
 //!             // Both are not supported yet
-//!             .with_gas_limit(3) // explicit gas limit
-//!             .with_gas_from_reservation(ReservationId::from([0; 32])) // gas from reservation
+//!             .with_gas_limit(3) // Explicit gas limit
+//!             .with_gas_from_reservation(ReservationId::from([0; 32])) // Gas from reservation
 //!         // Possible methods (stage 2, called after stage 1):
 //!             // You can use `.for_reply()` or `.for_reply_as::<T>()`
 //!             // Both are not supported
-//!             .for_reply() // wait for reply (output - bytes)
-//!             .for_reply_as::<T>() // wait for reply (output - T)
-//!                 .with_reply_deposit(1) // reply_deposit=0 by default
+//!             .for_reply() // Wait for reply (output - bytes)
+//!             .for_reply_as::<T>() // Wait for reply (output - T)
+//!                 .with_reply_deposit(1) // Reply deposit is 0 by default
 //!         .execute()
 //!         // ^ don't forget about `.execute()`
 //!         .expect("failed to send msg");
@@ -113,11 +113,11 @@
 //!     // - `builder::reply_input(...)`
 //!     builder::reply(String::from("payload"))
 //!         // Possible methods:
-//!             .with_value(1) // value=0 by default
+//!             .with_value(1) // Value is 0 by default
 //!             // You can use `.with_gas_limit(...)` or `.with_gas_from_reservation(...)`
 //!             // Both are not supported yet
-//!             .with_gas_limit(3) // explicit gas limit
-//!             .with_gas_from_reservation(ReservationId::from([0; 32])) // gas from reservation
+//!             .with_gas_limit(3) // Explicit gas limit
+//!             .with_gas_from_reservation(ReservationId::from([0; 32])) // Gas from reservation
 //!         .execute()
 //!         // ^ don't forget about `.execute()`
 //!         .expect("failed to reply");
@@ -134,9 +134,9 @@
 //!         // Possible methods (stage 2, called after stage 1):
 //!             // You can use `.for_reply()` or `.for_reply_as::<T>()`
 //!             // Both are not supported
-//!             .for_reply() // wait for reply (output - bytes)
-//!             .for_reply_as::<T>() // wait for reply (output - T)
-//!                 .with_reply_deposit(1) // reply_deposit=0 by default
+//!             .for_reply() // Wait for reply (output - bytes)
+//!             .for_reply_as::<T>() // Wait for reply (output - T)
+//!                 .with_reply_deposit(1) // Reply deposit is 0 by default
 //!         // ^ don't forget about `.execute()`
 //!         .expect("failed to create program");
 //! }
