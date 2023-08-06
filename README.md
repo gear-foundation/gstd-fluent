@@ -30,12 +30,12 @@ Then update your code like this:
 use gstd_fluent::{
     self as builder,
     gstd::{self, prelude::*, ActorId},
-    //     ^^^^ useful when working with gstd attribute macros
+    //     ^^^^ Useful when working with gstd attribute macros
 };
 
 #[no_mangle]
 extern "C" fn handle() {
-    // equivalent to `msg::send_with_gas`
+    // Equivalent to `msg::send_with_gas`
     builder::send(ActorId::zero(), String::from("input"))
         .with_value(42)
         .with_gas_limit(1_000_000)

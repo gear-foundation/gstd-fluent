@@ -130,13 +130,13 @@
 //!             .with_value(1)
 //!             .with_delay(2)
 //!             .with_gas_limit(3)
-//!         .execute()
 //!         // Possible methods (stage 2, called after stage 1):
 //!             // You can use `.for_reply()` or `.for_reply_as::<T>()`
 //!             // Both are not supported
 //!             .for_reply() // Wait for reply (output - bytes)
 //!             .for_reply_as::<T>() // Wait for reply (output - T)
 //!                 .with_reply_deposit(1) // Reply deposit is 0 by default
+//!         .execute()
 //!         // ^ Don't forget about `.execute()`
 //!         .expect("failed to create program");
 //! }
