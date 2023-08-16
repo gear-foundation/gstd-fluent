@@ -46,9 +46,17 @@ pub fn send_input<Range: RangeBounds<usize>>(
 }
 
 /// Creates a builder that allows to create a new program from the already existing on-chain code.
-pub fn create_program<Buffer: AsRef<[u8]>>(
+pub fn create_program_bytes<Buffer: AsRef<[u8]>>(
     code_id: CodeId,
     payload: Buffer,
 ) -> CreateProgramBuilder<(CodeIdW, PayloadBytesW<Buffer>, (), (), ())> {
     CreateProgramBuilder::bytes(code_id, payload)
+}
+
+/// Creates a builder that allows to create a new program from the already existing on-chain code.
+pub fn create_program<Encodable: Encode>(
+    code_id: CodeId,
+    payload: Encodable,
+) -> CreateProgramBuilder<(CodeIdW, PayloadEncodableW<Encodable>, (), (), ())> {
+    CreateProgramBuilder::encode(code_id, payload)
 }

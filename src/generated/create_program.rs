@@ -19,6 +19,14 @@ impl<Buffer: AsRef<[u8]>> CreateProgramBuilder<(CodeIdW, PayloadBytesW<Buffer>, 
     }
 }
 
+impl<Encodable: Encode> CreateProgramBuilder<(CodeIdW, PayloadEncodableW<Encodable>, (), (), ())> {
+    pub fn encode(code_id: CodeId, payload: Encodable) -> Self {
+        Self {
+            fields: (CodeIdW(code_id), PayloadEncodableW(payload), (), (), ()),
+        }
+    }
+}
+
 impl<CodeId, Payload, Delay, GasLimit> CreateProgramBuilder<(CodeId, Payload, (), Delay, GasLimit)> {
     pub fn with_value(self, value: u128) -> CreateProgramBuilder<(CodeId, Payload, ValueW, Delay, GasLimit)> {
         let (code_id, payload, _, delay, gas_limit) = self.fields;
@@ -65,27 +73,55 @@ impl<CodeId, Payload, Value, GasLimit> CreateProgramBuilder<(CodeId, Payload, Va
 impl<Buffer: AsRef<[u8]>, Value: Into<ValueW>> CreateProgramBuilder<(CodeIdW, PayloadBytesW<Buffer>, Value, (), ())> {
     pub fn execute(self) -> Result<(MessageId, ActorId)> {
         let (CodeIdW(code_id), PayloadBytesW(payload), value, _, _) = self.fields;
-        ProgramGenerator::create_program(code_id, payload, value.into().0)
+        ProgramGenerator::create_program_bytes(code_id, payload, value.into().0)
     }
 }
 
 impl<Buffer: AsRef<[u8]>, Value: Into<ValueW>> CreateProgramBuilder<(CodeIdW, PayloadBytesW<Buffer>, Value, (), GasLimitW)> {
     pub fn execute(self) -> Result<(MessageId, ActorId)> {
         let (CodeIdW(code_id), PayloadBytesW(payload), value, _, GasLimitW(gas_limit)) = self.fields;
-        ProgramGenerator::create_program_with_gas(code_id, payload, gas_limit, value.into().0)
+        ProgramGenerator::create_program_bytes_with_gas(code_id, payload, gas_limit, value.into().0)
     }
 }
 
 impl<Buffer: AsRef<[u8]>, Value: Into<ValueW>> CreateProgramBuilder<(CodeIdW, PayloadBytesW<Buffer>, Value, DelayW, ())> {
     pub fn execute(self) -> Result<(MessageId, ActorId)> {
         let (CodeIdW(code_id), PayloadBytesW(payload), value, DelayW(delay), _) = self.fields;
-        ProgramGenerator::create_program_delayed(code_id, payload, value.into().0, delay)
+        ProgramGenerator::create_program_bytes_delayed(code_id, payload, value.into().0, delay)
     }
 }
 
 impl<Buffer: AsRef<[u8]>, Value: Into<ValueW>> CreateProgramBuilder<(CodeIdW, PayloadBytesW<Buffer>, Value, DelayW, GasLimitW)> {
     pub fn execute(self) -> Result<(MessageId, ActorId)> {
         let (CodeIdW(code_id), PayloadBytesW(payload), value, DelayW(delay), GasLimitW(gas_limit)) = self.fields;
+        ProgramGenerator::create_program_bytes_with_gas_delayed(code_id, payload, gas_limit, value.into().0, delay)
+    }
+}
+
+impl<Encodable: Encode, Value: Into<ValueW>> CreateProgramBuilder<(CodeIdW, PayloadEncodableW<Encodable>, Value, (), ())> {
+    pub fn execute(self) -> Result<(MessageId, ActorId)> {
+        let (CodeIdW(code_id), PayloadEncodableW(payload), value, _, _) = self.fields;
+        ProgramGenerator::create_program(code_id, payload, value.into().0)
+    }
+}
+
+impl<Encodable: Encode, Value: Into<ValueW>> CreateProgramBuilder<(CodeIdW, PayloadEncodableW<Encodable>, Value, (), GasLimitW)> {
+    pub fn execute(self) -> Result<(MessageId, ActorId)> {
+        let (CodeIdW(code_id), PayloadEncodableW(payload), value, _, GasLimitW(gas_limit)) = self.fields;
+        ProgramGenerator::create_program_with_gas(code_id, payload, gas_limit, value.into().0)
+    }
+}
+
+impl<Encodable: Encode, Value: Into<ValueW>> CreateProgramBuilder<(CodeIdW, PayloadEncodableW<Encodable>, Value, DelayW, ())> {
+    pub fn execute(self) -> Result<(MessageId, ActorId)> {
+        let (CodeIdW(code_id), PayloadEncodableW(payload), value, DelayW(delay), _) = self.fields;
+        ProgramGenerator::create_program_delayed(code_id, payload, value.into().0, delay)
+    }
+}
+
+impl<Encodable: Encode, Value: Into<ValueW>> CreateProgramBuilder<(CodeIdW, PayloadEncodableW<Encodable>, Value, DelayW, GasLimitW)> {
+    pub fn execute(self) -> Result<(MessageId, ActorId)> {
+        let (CodeIdW(code_id), PayloadEncodableW(payload), value, DelayW(delay), GasLimitW(gas_limit)) = self.fields;
         ProgramGenerator::create_program_with_gas_delayed(code_id, payload, gas_limit, value.into().0, delay)
     }
 }
@@ -111,27 +147,55 @@ impl<CodeId, Payload, Value, GasLimit, Decodable> CreateProgramBuilderForReply<(
 impl<Buffer: AsRef<[u8]>, Value: Into<ValueW>, ReplyDeposit: Into<ReplyDepositW>> CreateProgramBuilderForReply<(CodeIdW, PayloadBytesW<Buffer>, Value, (), ReplyDeposit, ())> {
     pub fn execute(self) -> Result<CreateProgramFuture> {
         let (CodeIdW(code_id), PayloadBytesW(payload), value, _, reply_deposit, _) = self.fields;
-        ProgramGenerator::create_program_for_reply(code_id, payload, value.into().0, reply_deposit.into().0)
+        ProgramGenerator::create_program_bytes_for_reply(code_id, payload, value.into().0, reply_deposit.into().0)
     }
 }
 
 impl<Buffer: AsRef<[u8]>, Value: Into<ValueW>, ReplyDeposit: Into<ReplyDepositW>> CreateProgramBuilderForReply<(CodeIdW, PayloadBytesW<Buffer>, Value, GasLimitW, ReplyDeposit, ())> {
     pub fn execute(self) -> Result<CreateProgramFuture> {
         let (CodeIdW(code_id), PayloadBytesW(payload), value, GasLimitW(gas_limit), reply_deposit, _) = self.fields;
-        ProgramGenerator::create_program_with_gas_for_reply(code_id, payload, gas_limit, value.into().0, reply_deposit.into().0)
+        ProgramGenerator::create_program_bytes_with_gas_for_reply(code_id, payload, gas_limit, value.into().0, reply_deposit.into().0)
     }
 }
 
 impl<Buffer: AsRef<[u8]>, Value: Into<ValueW>, ReplyDeposit: Into<ReplyDepositW>, Decodable: Decode> CreateProgramBuilderForReply<(CodeIdW, PayloadBytesW<Buffer>, Value, (), ReplyDeposit, DecodableW<Decodable>)> {
     pub fn execute(self) -> Result<CodecCreateProgramFuture<Decodable>> {
         let (CodeIdW(code_id), PayloadBytesW(payload), value, _, reply_deposit, _) = self.fields;
-        ProgramGenerator::create_program_for_reply_as(code_id, payload, value.into().0, reply_deposit.into().0)
+        ProgramGenerator::create_program_bytes_for_reply_as(code_id, payload, value.into().0, reply_deposit.into().0)
     }
 }
 
 impl<Buffer: AsRef<[u8]>, Value: Into<ValueW>, ReplyDeposit: Into<ReplyDepositW>, Decodable: Decode> CreateProgramBuilderForReply<(CodeIdW, PayloadBytesW<Buffer>, Value, GasLimitW, ReplyDeposit, DecodableW<Decodable>)> {
     pub fn execute(self) -> Result<CodecCreateProgramFuture<Decodable>> {
         let (CodeIdW(code_id), PayloadBytesW(payload), value, GasLimitW(gas_limit), reply_deposit, _) = self.fields;
+        ProgramGenerator::create_program_bytes_with_gas_for_reply_as(code_id, payload, gas_limit, value.into().0, reply_deposit.into().0)
+    }
+}
+
+impl<Encodable: Encode, Value: Into<ValueW>, ReplyDeposit: Into<ReplyDepositW>> CreateProgramBuilderForReply<(CodeIdW, PayloadEncodableW<Encodable>, Value, (), ReplyDeposit, ())> {
+    pub fn execute(self) -> Result<CreateProgramFuture> {
+        let (CodeIdW(code_id), PayloadEncodableW(payload), value, _, reply_deposit, _) = self.fields;
+        ProgramGenerator::create_program_for_reply(code_id, payload, value.into().0, reply_deposit.into().0)
+    }
+}
+
+impl<Encodable: Encode, Value: Into<ValueW>, ReplyDeposit: Into<ReplyDepositW>> CreateProgramBuilderForReply<(CodeIdW, PayloadEncodableW<Encodable>, Value, GasLimitW, ReplyDeposit, ())> {
+    pub fn execute(self) -> Result<CreateProgramFuture> {
+        let (CodeIdW(code_id), PayloadEncodableW(payload), value, GasLimitW(gas_limit), reply_deposit, _) = self.fields;
+        ProgramGenerator::create_program_with_gas_for_reply(code_id, payload, gas_limit, value.into().0, reply_deposit.into().0)
+    }
+}
+
+impl<Encodable: Encode, Value: Into<ValueW>, ReplyDeposit: Into<ReplyDepositW>, Decodable: Decode> CreateProgramBuilderForReply<(CodeIdW, PayloadEncodableW<Encodable>, Value, (), ReplyDeposit, DecodableW<Decodable>)> {
+    pub fn execute(self) -> Result<CodecCreateProgramFuture<Decodable>> {
+        let (CodeIdW(code_id), PayloadEncodableW(payload), value, _, reply_deposit, _) = self.fields;
+        ProgramGenerator::create_program_for_reply_as(code_id, payload, value.into().0, reply_deposit.into().0)
+    }
+}
+
+impl<Encodable: Encode, Value: Into<ValueW>, ReplyDeposit: Into<ReplyDepositW>, Decodable: Decode> CreateProgramBuilderForReply<(CodeIdW, PayloadEncodableW<Encodable>, Value, GasLimitW, ReplyDeposit, DecodableW<Decodable>)> {
+    pub fn execute(self) -> Result<CodecCreateProgramFuture<Decodable>> {
+        let (CodeIdW(code_id), PayloadEncodableW(payload), value, GasLimitW(gas_limit), reply_deposit, _) = self.fields;
         ProgramGenerator::create_program_with_gas_for_reply_as(code_id, payload, gas_limit, value.into().0, reply_deposit.into().0)
     }
 }
