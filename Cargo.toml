@@ -10,7 +10,7 @@ keywords = ["gstd", "smart-contracts", "gear-tech", "gear-foundation"]
 categories = ["api-bindings", "no-std"]
 
 [dependencies]
-gstd = { git = "https://github.com/gear-tech/gear.git", rev = "e9b6d89" }
+gstd = { git = "https://github.com/gear-tech/gear.git", rev = "e9b6d89", default-features = false }
 
 [features]
 default = ["panic-handler"]
