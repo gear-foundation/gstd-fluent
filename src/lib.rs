@@ -125,7 +125,10 @@
 //!
 //! // This is pseudo-code to show all possible methods
 //! fn how_to_use_create_program() {
-//!     builder::create_program(CodeId::default(), b"payload")
+//!     // Supported functions:
+//!     // - `builder::create_program(...)`
+//!     // - `builder::create_program_bytes(...)`
+//!     builder::create_program(CodeId::default(), String::from("payload"))
 //!         // Possible methods (stage 1):
 //!             .with_value(1)
 //!             .with_delay(2)

@@ -1,6 +1,6 @@
 [package]
 name = "gstd-fluent"
-version = "0.1.0"
+version = "0.3.2"
 authors = ["Gear Technologies"]
 edition = "2021"
 description = "A wrapper over gstd that provides a fluent interface to interact with the Gear Protocol"
@@ -10,7 +10,9 @@ keywords = ["gstd", "smart-contracts", "gear-tech", "gear-foundation"]
 categories = ["api-bindings", "no-std"]
 
 [dependencies]
-gstd = { git = "https://github.com/gear-tech/gear.git", rev = "946ac47" }
+gstd = { git = "https://github.com/gear-tech/gear.git", rev = "e9b6d89", default-features = false }
 
 [features]
+default = ["panic-handler"]
+panic-handler = ["gstd/panic-handler"]
 debug = ["gstd/debug"]
