@@ -1,8 +1,8 @@
-//! A wrapper over [`gstd`](https://docs.gear.rs/gstd/) that provides a fluent interface to interact
+//! A wrapper over [`gstd`](https://docs.rs/gstd/) that provides a fluent interface to interact
 //! with the Gear Protocol.
 //!
 //! This library can be used instead of the standard library when writing Gear programs. Compared to
-//! the [`gstd`](https://docs.gear.rs/gstd/) crate, this library provides higher-level functions
+//! the [`gstd`](https://docs.rs/gstd/) crate, this library provides higher-level functions
 //! that allow you to write Gear programs code in a more convenient way.
 //!
 //! ### Example
