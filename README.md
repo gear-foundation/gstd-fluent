@@ -10,16 +10,17 @@
 [lic_badge]: https://img.shields.io/badge/License-MIT-success
 [lic_href]: LICENSE
 
-[docs_badge]: https://img.shields.io/badge/Docs-online-5023dd
-[docs_href]: https://dapp.rs/gstd-fluent/gstd_fluent/
+[docs_badge]: https://img.shields.io/badge/Docs-online-5023dd?logo=rust
+[docs_href]: https://docs.rs/gstd-fluent/
 
 A wrapper over [gstd](https://github.com/gear-tech/gear/tree/master/gstd)
 that provides a fluent interface to interact with the Gear Protocol.
 
 To use the default implementation, you should replace `gstd` with `gstd-fluent` in your `Cargo.toml` file:
 
-```toml
-gstd-fluent = { git = "https://github.com/gear-foundation/gstd-fluent.git" }
+```diff
+- gstd = "x.y.z"
++ gstd-fluent = "x.y.z"
 ```
 
 Then update your code like this:
