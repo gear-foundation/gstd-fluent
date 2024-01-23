@@ -10,7 +10,7 @@ keywords = ["gstd", "smart-contracts", "gear-tech", "gear-foundation"]
 categories = ["api-bindings", "no-std"]
 
 [dependencies]
-gstd = { version = "=1.1.0", default-features = false }
+gstd = { version = "1.1.0", default-features = false }
 
 [features]
 default = ["panic-message"]
