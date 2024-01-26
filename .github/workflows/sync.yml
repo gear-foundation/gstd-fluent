@@ -1,0 +1,31 @@
+name: Sync version
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "ACTIONS: Checkout"
+        uses: actions/checkout@v4
+
+      - name: "Versioning: Sync version with gstd"
+        run: |
+          CRATE_NAME="gstd"
+          GSTD_VERSION=$(curl -s https://crates.io/api/v1/crates/$CRATE_NAME/versions | jq -r '.versions[] | .num' | grep -E "^[0-9]+\.[0-9]+\.[0-9]+$" | head -n 1)
+
+          # version = "x.y.z" -> version = "$GSTD_VERSION"
+          sed -i 's/\(^version = "\)\([0-9]\+\.[0-9]\+\.[0-9]\+\)/\1'$GSTD_VERSION'/' Cargo.toml
+          # gstd = { version = "=x.y.z", ... } -> gstd = { version = "=x.y.z", ... }
+          sed -i 's/\(gstd = { version = "=\)\([0-9]\+\.[0-9]\+\.[0-9]\+\)/\1'$GSTD_VERSION'/' Cargo.toml
+
+      - name: "ACTIONS: Create commit"
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: >-
+            chore(deps): sync with latest gstd version
+          file_pattern: Cargo.toml
