@@ -27,6 +27,9 @@ jobs:
       - name: "Test"
         run: cargo test --release
 
+      - name: "Test: Doc examples"
+        run: cargo test --release --doc
+
       - name: "Check clippy"
         run: cargo clippy --release --all-targets -- -D warnings
 

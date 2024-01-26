@@ -1,10 +1,7 @@
 name: Docs
 
 on:
-  push:
-    branches: [ master ]
   pull_request:
-    branches: [ master ]
   workflow_dispatch:
 
 permissions:
@@ -30,24 +27,3 @@ jobs:
       - name: "Test: Doc examples"
         if: github.event_name == 'pull_request'
         run: cargo test --doc
-
-      - name: "Build: Docs"
-        env:
-          RUSTDOCFLAGS: --enable-index-page -Zunstable-options
-        run: |
-          cargo doc --no-deps --workspace
-          rm -f target/doc/.lock
-
-      - name: "ACTIONS: Setup GitHub Pages"
-        if: github.event_name == 'push'
-        uses: actions/configure-pages@v4
-
-      - name: "ACTIONS: Upload Pages artifact"
-        if: github.event_name == 'push'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: target/doc
-
-      - name: "ACTIONS: Deploy to GitHub Pages"
-        if: github.event_name == 'push'
-        uses: actions/deploy-pages@v4
