@@ -1,8 +1,8 @@
-//! A wrapper over [`gstd`](https://docs.gear.rs/gstd/) that provides a fluent interface to interact
+//! A wrapper over [`gstd`](https://docs.rs/gstd/) that provides a fluent interface to interact
 //! with the Gear Protocol.
 //!
 //! This library can be used instead of the standard library when writing Gear programs. Compared to
-//! the [`gstd`](https://docs.gear.rs/gstd/) crate, this library provides higher-level functions
+//! the [`gstd`](https://docs.rs/gstd/) crate, this library provides higher-level functions
 //! that allow you to write Gear programs code in a more convenient way.
 //!
 //! ### Example
@@ -125,7 +125,10 @@
 //!
 //! // This is pseudo-code to show all possible methods
 //! fn how_to_use_create_program() {
-//!     builder::create_program(CodeId::default(), b"payload")
+//!     // Supported functions:
+//!     // - `builder::create_program(...)`
+//!     // - `builder::create_program_bytes(...)`
+//!     builder::create_program(CodeId::default(), String::from("payload"))
 //!         // Possible methods (stage 1):
 //!             .with_value(1)
 //!             .with_delay(2)
